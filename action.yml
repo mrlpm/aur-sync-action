@@ -1,5 +1,5 @@
 # action.yml
-name: "AUR sync docker"
+name: "AUR sync"
 description: "Sync an AUR package with Github release"
 author: maniacata
 branding:

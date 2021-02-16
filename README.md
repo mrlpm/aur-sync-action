@@ -42,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Sync AUR package with Github release
-        uses: maniaciachao/aur-sync-action@v1.2
+        uses: dbinary/aur-sync-action@v1.2
         with:
           package_name: logism-evolution
           github_repo: 'reds-heig/logisim-evolution'
