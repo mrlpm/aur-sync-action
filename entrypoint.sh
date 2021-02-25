@@ -66,6 +66,7 @@ makepkg --printsrcinfo > .SRCINFO
 echo "------------- BUILD DONE ----------------"
 
 # update aur
+rm -rf /tmp/$PACKAGE_NAME/*pkg.tar.zst
 update_repo
 
 echo "------------- SYNC DONE ----------------"
