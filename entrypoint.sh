@@ -72,7 +72,7 @@ echo "------------- SYNC DONE ----------------"
 echo "------------- UPDATING LOCAL REPO ----------------"
 mkdir /tmp/localrepo
 cd /tmp/localrepo
-git clone git@github.com:$GITHUB_LOCAL_REPO
+git clone git@github.com:${GITHUB_LOCAL_REPO}.git
 cp -vf /tmp/$PACKAGE_NAME/PKGBUILD /tmp/localrepo/$PACKAGE_NAME/
 cd "/tmp/localrepo/$PACKAGE_NAME"
 update_repo
