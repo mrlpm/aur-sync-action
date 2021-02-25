@@ -7,6 +7,13 @@ COMMIT_USERNAME=$INPUT_COMMIT_USERNAME
 COMMIT_EMAIL=$INPUT_COMMIT_EMAIL
 SSH_PRIVATE_KEY=$INPUT_SSH_PRIVATE_KEY
 GITHUB_REPO=$INPUT_GITHUB_REPO
+GITHUB_LOCAL_REPO=$INPUT_GITHUB_LOCAL_REPO
+
+update_repo() {
+    git add .
+    git commit --allow-empty  -m "Update to $NEW_PKGVER"
+    git push
+}
 
 HOME=/home/builder
 
@@ -59,8 +66,14 @@ makepkg --printsrcinfo > .SRCINFO
 echo "------------- BUILD DONE ----------------"
 
 # update aur
-git add PKGBUILD .SRCINFO
-git commit --allow-empty  -m "Update to $NEW_PKGVER"
-git push
+update_repo
 
 echo "------------- SYNC DONE ----------------"
+echo "------------- UPDATING LOCAL REPO ----------------"
+mkdir /tmp/localrepo
+cd /tmp/localrepo
+git clone git@github.com:$GITHUB_LOCAL_REPO
+cp -vf /tmp/$PACKAGE_NAME/PKGBUILD /tmp/localrepo/$PACKAGE_NAME/
+cd "/tmp/localrepo/$PACKAGE_NAME"
+update_repo
+echo "------------- UPDATING DONE ----------------"

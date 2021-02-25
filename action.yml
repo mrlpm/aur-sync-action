@@ -24,6 +24,9 @@ inputs:
   extra_dependencies:
     description: "Extra dependencies when building AUR package."
     required: false
+  github_local_repo:
+    description: "Name of local repository"
+    required: true
 
 runs:
   using: "docker"
@@ -35,3 +38,4 @@ runs:
     - ${{ inputs.commit_email }}
     - ${{ inputs.ssh_private_key }}
     - ${{ inputs.extra_dependencies }}
+    - ${{ inputs.github_local_repo }}
