@@ -19,6 +19,8 @@ HOME=/home/builder
 
 # config ssh
 ssh-keyscan -t ed25519 aur.archlinux.org >> $HOME/.ssh/known_hosts
+ssh-keyscan -t rsa github.com >> $HOME/.ssh/known_hosts
+
 echo -e "${SSH_PRIVATE_KEY//_/\\n}" > $HOME/.ssh/aur
 chmod 600 $HOME/.ssh/aur*
 
