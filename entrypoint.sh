@@ -9,12 +9,6 @@ SSH_PRIVATE_KEY=$INPUT_SSH_PRIVATE_KEY
 GITHUB_REPO=$INPUT_GITHUB_REPO
 GITHUB_LOCAL_REPO=$INPUT_GITHUB_LOCAL_REPO
 
-update_repo() {
-    git add .
-    git commit --allow-empty  -m "Update to $NEW_PKGVER"
-    git push
-}
-
 HOME=/home/builder
 
 # config ssh
@@ -68,8 +62,9 @@ makepkg --printsrcinfo > .SRCINFO
 echo "------------- BUILD DONE ----------------"
 
 # update aur
-rm -rf /tmp/$PACKAGE_NAME/*pkg.tar.zst
-update_repo
+git add PKGBUILD .SRCINFO
+git commit --allow-empty  -m "Update to $NEW_PKGVER"
+git push
 
 echo "------------- SYNC DONE ----------------"
 echo "------------- UPDATING LOCAL REPO ----------------"
@@ -78,5 +73,7 @@ cd /tmp/localrepo
 git clone git@github.com:${GITHUB_LOCAL_REPO}.git
 cp -vf /tmp/$PACKAGE_NAME/PKGBUILD /tmp/localrepo/$PACKAGE_NAME/
 cd "/tmp/localrepo/$PACKAGE_NAME"
-update_repo
+git add .
+git commit --allow-empty  -m "Update to $NEW_PKGVER"
+git push
 echo "------------- UPDATING DONE ----------------"
