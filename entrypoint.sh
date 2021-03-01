@@ -67,13 +67,3 @@ git commit --allow-empty  -m "Update to $NEW_PKGVER"
 git push
 
 echo "------------- SYNC DONE ----------------"
-echo "------------- UPDATING LOCAL REPO ----------------"
-mkdir /tmp/localrepo
-cd /tmp/localrepo
-git clone git@github.com:${GITHUB_LOCAL_REPO}.git
-cp -vf /tmp/$PACKAGE_NAME/PKGBUILD /tmp/localrepo/$PACKAGE_NAME/
-cd "/tmp/localrepo/$PACKAGE_NAME"
-git add .
-git commit --allow-empty  -m "Update to $NEW_PKGVER"
-git push
-echo "------------- UPDATING DONE ----------------"
