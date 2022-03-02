@@ -1,9 +1,6 @@
 FROM archlinux
 
-RUN patched_glibc=glibc-linux4-2.33-4-x86_64.pkg.tar.zst && \
-    curl -LO "https://repo.archlinuxcn.org/x86_64/$patched_glibc" && \
-    bsdtar -C / -xf "$patched_glibc" && pacman -Syu --noconfirm \
-    --needed openssh sudo \
+RUN pacman -Syu --noconfirm --needed openssh sudo \
     git fakeroot binutils go-pie gcc awk binutils xz \
     libarchive bzip2 coreutils file findutils \
     gettext grep gzip sed ncurses jq
