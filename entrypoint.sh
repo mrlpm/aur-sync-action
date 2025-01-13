@@ -31,7 +31,11 @@ cd "$PACKAGE_NAME"
 echo "------------- DIFF VERSION ----------------"
 
 RELEASE_VER=`curl -s https://api.github.com/repos/${GITHUB_REPO}/releases | jq -r .[0].tag_name`
-NEW_PKGVER="${RELEASE_VER:1}" # remove character 'v'
+if [[ $RELEASE_VER == *"v"* ]];then
+	NEW_PKGVER="${RELEASE_VER:1}" # remove character 'v'
+else
+	NEW_PKGVER="${RELEASE_VER}"
+fi
 CURRENT_VER=`grep pkgver .SRCINFO | awk -F '=' '{print $2}' | tr -d "[:space:]"`
 
 echo "release version is "$NEW_PKGVER
