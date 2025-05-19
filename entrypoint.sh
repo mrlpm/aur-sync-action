@@ -23,6 +23,11 @@ git config --global user.name "$COMMIT_USERNAME"
 git config --global user.email "$COMMIT_EMAIL"
 AUR_REPO_URL="ssh://aur@aur.archlinux.org/${PACKAGE_NAME}.git"
 
+echo "------------- INSTALLING EXTRA DENPENDENCIES ----------------"
+if [[ ! -z "$INPUT_EXTRA_DEPENDENCIES" ]]; then
+  sudo pacman -Sy --noconfirm $INPUT_EXTRA_DEPENDENCIES
+fi
+
 echo "---------------- CLONE REPO ----------------"
 cd /tmp
 git clone "$AUR_REPO_URL"
@@ -45,13 +50,6 @@ if [[ $NEW_PKGVER = $CURRENT_VER ]]; then
   echo "already up-to-date!";
   echo "------------- SYNC DONE ----------------"
   exit 0
-fi
-
-echo "------------- BUILDING PKG $PACKAGE_NAME ----------------"
-
-if [[ ! -z "$INPUT_EXTRA_DEPENDENCIES" ]]; then
-  echo "------------- EXTRA DENPENDENCIES ----------------"
-  sudo pacman -Sy --noconfirm $INPUT_EXTRA_DEPENDENCIES
 fi
 
 echo "------------- MAKE PACKAGE ----------------"
