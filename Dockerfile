@@ -3,7 +3,7 @@ FROM archlinux
 RUN pacman -Syu --noconfirm --needed openssh sudo \
     git fakeroot binutils go-pie gcc awk binutils xz \
     libarchive bzip2 coreutils file findutils \
-    gettext grep gzip sed ncurses jq debugedit make
+    gettext grep gzip sed ncurses jq debugedit make diff
 
 RUN useradd -ms /bin/bash builder && \
     echo 'builder ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
