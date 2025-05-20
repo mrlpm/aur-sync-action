@@ -52,6 +52,11 @@ if [[ $NEW_PKGVER = $CURRENT_VER ]]; then
   exit 0
 fi
 
+echo "----- REPLICATING CHANGES FROM AUR -----"
+ls -l ../../PKGBUILD
+grep pkgver ../../PKGBUILD
+diff -q "$AUR_REPO_PATH"/PKGBUILD ../../PKGBUILD
+
 echo "------------- MAKE PACKAGE ----------------"
 sed -i "s/pkgver=.*$/pkgver=${NEW_PKGVER}/" PKGBUILD
 sed -i "s/pkgrel=.*$/pkgrel=1/" PKGBUILD
@@ -62,11 +67,6 @@ makepkg -c
 makepkg --printsrcinfo > .SRCINFO
 
 echo "------------- BUILD DONE ----------------"
-
-echo "----- REPLICATING CHANGES FROM AUR -----"
-ls -l ../../PKGBUILD
-grep pkgver ../../PKGBUILD
-diff -q "$AUR_REPO_PATH"/PKGBUILD ../../PKGBUILD
 
 # update aur
 git add PKGBUILD .SRCINFO
