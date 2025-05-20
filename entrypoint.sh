@@ -54,9 +54,12 @@ fi
 
 echo "----- REPLICATING CHANGES FROM AUR -----"
 echo $PWD
-ls -l ../PKGBUILD
-grep pkgver ../PKGBUILD
+cd -
+ls -l
+echo $PWD
 diff -q "$AUR_REPO_PATH"/PKGBUILD ../PKGBUILD
+echo $?
+echo "----- DONE REPLICATING CHANGES -----"
 
 echo "------------- MAKE PACKAGE ----------------"
 sed -i "s/pkgver=.*$/pkgver=${NEW_PKGVER}/" PKGBUILD
