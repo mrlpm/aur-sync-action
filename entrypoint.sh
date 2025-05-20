@@ -29,9 +29,9 @@ if [[ ! -z "$INPUT_EXTRA_DEPENDENCIES" ]]; then
 fi
 
 echo "---------------- CLONE REPO ----------------"
-cd /tmp
-git clone "$AUR_REPO_URL"
-cd "$PACKAGE_NAME"
+AUR_REPO_PATH=/tmp/"$PACKAGE_NAME"
+git clone "$AUR_REPO_URL" "$AUR_REPO_PATH"
+cd "$AUR_REPO_PATH"
 
 echo "------------- DIFF VERSION ----------------"
 
@@ -62,6 +62,11 @@ makepkg -c
 makepkg --printsrcinfo > .SRCINFO
 
 echo "------------- BUILD DONE ----------------"
+
+echo "----- REPLICATING CHANGES FROM AUR -----"
+ls -l ../../PKGBUILD
+grep pkgver ../../PKGBUILD
+diff -q "$AUR_REPO_PATH"/PKGBUILD ../../PKGBUILD
 
 # update aur
 git add PKGBUILD .SRCINFO
