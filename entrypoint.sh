@@ -53,12 +53,13 @@ if [[ $NEW_PKGVER = $CURRENT_VER ]]; then
 fi
 
 echo "----- REPLICATING CHANGES FROM AUR -----"
-echo $PWD
 cd -
-ls -l
-echo $PWD
-diff -q "$AUR_REPO_PATH"/PKGBUILD ../PKGBUILD
-echo $?
+if diff -q "$AUR_REPO_PATH"/PKGBUILD PKGBUILD > /dev/null; then
+  echo "Files are equal, skipping"
+else
+  echo "Files are different copying PKGBUILD"
+  # cp "$AUR_REPO_PATH"/PKGBUILD PKGBUILD
+fi
 echo "----- DONE REPLICATING CHANGES -----"
 
 echo "------------- MAKE PACKAGE ----------------"
