@@ -53,9 +53,10 @@ if [[ $NEW_PKGVER = $CURRENT_VER ]]; then
 fi
 
 echo "----- REPLICATING CHANGES FROM AUR -----"
-ls -l ../../PKGBUILD
-grep pkgver ../../PKGBUILD
-diff -q "$AUR_REPO_PATH"/PKGBUILD ../../PKGBUILD
+echo $PWD
+ls -l ../PKGBUILD
+grep pkgver ../PKGBUILD
+diff -q "$AUR_REPO_PATH"/PKGBUILD ../PKGBUILD
 
 echo "------------- MAKE PACKAGE ----------------"
 sed -i "s/pkgver=.*$/pkgver=${NEW_PKGVER}/" PKGBUILD
