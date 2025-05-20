@@ -52,20 +52,26 @@ if [[ $NEW_PKGVER = $CURRENT_VER ]]; then
   exit 0
 fi
 
+echo "------------- MAKE PACKAGE ----------------"
+sed -i "s/pkgver=.*$/pkgver=${NEW_PKGVER}/" PKGBUILD
+sed -i "s/pkgrel=.*$/pkgrel=1/" PKGBUILD
+perl -i -0pe "s/sha256sums=[\s\S][^\)]*\)/$(makepkg -g 2>/dev/null)/" PKGBUILD
+
 echo "----- REPLICATING CHANGES FROM AUR -----"
 cd -
 if diff -q "$AUR_REPO_PATH"/PKGBUILD PKGBUILD > /dev/null; then
   echo "Files are equal, skipping"
 else
   echo "Files are different copying PKGBUILD"
-  # cp "$AUR_REPO_PATH"/PKGBUILD PKGBUILD
+  cp "$AUR_REPO_PATH"/PKGBUILD PKGBUILD
+  git add PKGBUILD
+  git commit "replicating changes from AUR"
+  git push origin main
+  rm -rf .git PKGBUILD
 fi
 echo "----- DONE REPLICATING CHANGES -----"
 
-echo "------------- MAKE PACKAGE ----------------"
-sed -i "s/pkgver=.*$/pkgver=${NEW_PKGVER}/" PKGBUILD
-sed -i "s/pkgrel=.*$/pkgrel=1/" PKGBUILD
-perl -i -0pe "s/sha256sums=[\s\S][^\)]*\)/$(makepkg -g 2>/dev/null)/" PKGBUILD
+cd "$AUR_REPO_PATH"
 # test build
 makepkg -c
 # update srcinfo
